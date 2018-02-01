@@ -1,3 +1,63 @@
+# v1.0.3 路由和tab组件 2018-02-01
+
+1、编写路由导航组件tab
+	关键在于router-link标签和它的to属性
+	<div class="tab">
+    <router-link tag="div" class="tab-item" to="/recommend">
+      <span class="tab-link">推荐</span>
+    </router-link>
+    <router-link tag="div" class="tab-item" to="/singer">
+      <span class="tab-link">歌手</span>
+    </router-link>
+    <router-link tag="div" class="tab-item" to="/rank">
+      <span class="tab-link">排行
+      </span>
+    </router-link>
+    <router-link tag="div" class="tab-item" to="/search">
+      <span class="tab-link">搜索</span>
+    </router-link>
+  </div>
+
+ 2、路由配置 - /src/router/index.js
+	 export default new Router({
+	  routes: [
+	    {
+				path: '/',
+				redirect: '/recommend'
+	    },
+	    {
+				path: '/recommend',
+				component: Recommend
+	    },
+	    {
+				path: '/singer',
+				component: Singer
+	    },
+	    {
+				path: '/rank',
+				component: Rank
+	    },
+	    {
+				path: '/search',
+				component: Search
+	    }
+	  ]
+	})
+
+3、创建路由导向组件 recommend、singer、rank、search
+	components/recommend/recommend.vue
+	components/singer/singer.vue
+	components/rank/rank.vue
+	components/search/search.vue
+
+4、在src/router/index.js中引入这些导向组件，以满足路由配置使用
+	import Recommend from 'components/recommend/recommend'
+	import Singer from 'components/singer/singer'
+	import Rank from 'components/rank/rank'
+	import Search from 'components/search/search'
+
+# #############################################################################################################
+
 # v1.0.2 添加m-header组件 2018-02-01
 
 1、编写m-header组件
