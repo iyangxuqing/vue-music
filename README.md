@@ -1,4 +1,41 @@
-# v1.0.1 2018-02-01
+# v1.0.2 添加m-header组件 2018-02-01
+
+1、编写m-header组件
+	建立src/components/m-header文件夹
+	编辑src/components/m-header/m-header.vue文件
+		<template>
+  		<div class="m-header">
+		  </div>
+		</template>
+
+		<script type="text/ecmascript-6">
+  		export default {}
+		</script>
+
+		<style scoped lang="stylus" rel="stylesheet/stylus">
+		</style>
+	将该组件特有的图片文件logo@2x.png、logo@3x.png拷贝到该组件文件夹中
+
+2、在App.vue中引用m-header组件
+	import MHeader from 'components/m-header/m-header'
+
+	components: {
+		Mheader
+	}
+
+	<m-header></m-header>
+
+3、在build/webpack.base.conf.js中配置路径别名
+	resolve: {
+		...
+		alias: {
+			components: resolve('src/components')
+		}
+	}	
+
+# ########################################################################################################################################
+
+# v1.0.1 vue程序基础架构 2018-02-01
 
 1、完善工程目录结构，并引入相关字体、图片、基础样式文件
 	src/api
