@@ -1,3 +1,27 @@
+# v1.0.4 引入jsonp包，并封装成Promise
+
+1、jsonp不是ajax，它是通过在html中写入script标签，以代码的方式获取后端的数据，并在执行代码时还原原先的数据，来避开跨域问题的解决方案。
+
+2、可以引入现成的jsonp包，在"dependencies"中增加"jsonp": "^0.2.1"，并执行npm install，引入jsonp包。
+
+3、通过jsonp包的文档，可以得知其主要用法是 jsonp(url, options, fn(err, data){ ... })。
+
+4、在src/common文件夹中添加jsonp.js，用Promise方法将其包装
+		
+		import originJSONP from 'jsonp'
+
+		return new Promise((resolve, reject) => {
+			originJSONP(url, options, (err, data) => {
+				if (!err) {
+					resolve(data)
+				} else {
+					reject(err)
+				}
+			})
+		})
+
+# ############################################################################################################
+
 # v1.0.3 路由和tab组件 2018-02-01
 
 1、编写路由导航组件tab
