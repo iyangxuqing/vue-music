@@ -1,3 +1,66 @@
+# v1.0.5 组件的后端数据
+
+1、后端数据的存取模块一般放在src/api文件夹中，一个相对独立的组件对应一个js文件。如recommend.vue组件，对应的是src/api/recommend.js模块。
+
+2、一些与后端数据相关的配置，则可以统一写在src/api/config.js文件中。
+
+3、在src/api/config.js中写入向后端读取数据时的一些公共配置，以及一些常数如ERR_OK等
+
+	export const commonParams = {
+		g_tk: 5381,
+		inCharset: 'utf-8',
+		outCharset: 'utf-8',
+		notice: 0,
+		format: 'jsonp'
+	}
+
+	export const options = {
+		param: 'jsonpCallback'
+	}
+
+	export const ERR_OK = 0
+
+4、为recommend.vue组件编写api模块 - src/api/recommend.js，读取后端recommend数据
+
+	import jsonp from 'common/js/jsonp'
+	import {commonParams, options} from './config'
+
+	export function getRecommend() {
+		const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+
+		const data = Object.assign({}, commonParams, {
+			platform: 'h5',
+			uin: 0,
+			needNewCode: 1
+		})
+
+		return jsonp(url, data, options)
+	}
+
+5、在组件的created钩子中执行api，读取数据
+
+	<script type="text/ecmascript-6">
+		import {getRecommend} from 'api/recommend'
+		import {ERR_OK} from 'api/config'
+
+		export default {
+			created() {
+				this._getRecommend()
+			},
+			methods: {
+				_getRecommend() {
+					getRecommend().then((res) => {
+						if (res.code === ERR_OK) {
+							console.log(res.data.slider)
+						}
+					})
+				}
+			}
+		}
+	</script>
+	
+# ########################################################################################################
+
 # v1.0.4 引入jsonp包，并封装成Promise
 
 1、jsonp不是ajax，它是通过在html中写入script标签，以代码的方式获取后端的数据，并在执行代码时还原原先的数据，来避开跨域问题的解决方案。
