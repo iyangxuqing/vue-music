@@ -1,3 +1,17 @@
+# v1.0.6 slider组件
+
+1、slider组件使用better-scroll包来编写，使用了vue的<slot></slot>指令来插入特定内容。
+
+2、对于在<slot></slot>中插入的内容，slider组件通过js以addClass和$dom.style这两种方式给外部插入的内容添加样式。
+
+3、在src/common/js文件夹下创建了dom.js模板，提供了addClass、hasClass方法。
+
+4、本组件全面讲解了better-scroll的snap配置和 scroll.on('scrollEnd', () => {})事件监听。
+
+5、本组件编写中使用了window resize事件的监听 window.addEventListener('resize', () => { })，这些代码的使用值得在许多地方借鉴。
+
+# #####################################################################################################################################
+
 # v1.0.5 组件的后端数据
 
 1、后端数据的存取模块一般放在src/api文件夹中，一个相对独立的组件对应一个js文件。如recommend.vue组件，对应的是src/api/recommend.js模块。
