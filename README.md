@@ -1,3 +1,23 @@
+# v1.0.10 创建loading组件
+
+1、loading组件的创建和使用都很简单，主要问题在于它的定位。
+
+2、loading组件本身并不具备其自身的定位能力，必须由父组件来确定定位。
+
+3、在父组件中，使用loading组件时，需要给其包裹一个容器：
+		
+		<div class="loading-container"  v-show="!discList.length"><loading></loading></div>
+
+4、将div.loading-container放置在需要显示的区域，并样式化：
+
+		.loading-container
+        position: absolute
+        width: 100%
+        top: 50%
+        transform: translateY(-50%)
+
+# ####################################################################################################
+
 # v1.0.9 使用第三方组件 vue-lazyloader
 
 1、对于图片的懒加载，可以使用现成的第三方vue组件：vue-lazyloader。
