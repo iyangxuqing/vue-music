@@ -1,3 +1,56 @@
+# v1.0.8 封装scroll组件
+
+1、区块内容的滚动可以使用better-scroll包，better-scroll很好用，体验效果跟原生滚动差不多了。
+
+2、但better-scroll不是特意为vue封装的，它的使用更多的是命令式编程，与vue提倡的数据驱动不相符。
+
+3、程序中往往需要在多处使用内容滚动效果，better-scroll的配置和初始化及refresh的代码也很繁多。
+
+4、将better-scroll进行再次封装成scroll组件，利用vue的<slot></slot>指令，可以很方便的将需要滚动的内容嵌套到scroll组件中。
+
+    <scroll class="recommend-content" ref="scroll" :data="discList">
+      <div>
+      	<div class="slider-wrapper" v-if="recommends.length">
+      		<slider>
+      			<div v-for="item in recommends" :key="item.id">
+      				<a :href="item.linkUrl">
+      					<img @load="loadImage" :src="item.picUrl"/>
+      				</a>
+      			</div>
+      		</slider>
+      	</div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li class="item" v-for="item in discList" :key="item.id">
+              <div class="icon">
+                <img width="60" height="60" :src="item.imgurl">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </scroll>
+
+5、在使用中，scroll需要明确知道元素的高度（或宽度），在内容区域有图片加载时，需要监听image.onLoad事件，以确保图片加载后及时更新scroll组件。
+		
+		<img @load="loadImage" :src="item.picUrl"/>
+
+		...
+
+		loadImage() {
+      if (!this.checkLoaded) {
+        this.$refs.scroll.refresh()
+        this.checkLoaded = true
+      }
+    }
+
+# ############################################################################################
+
 # v1.0.7 使用axios获取数据
 
 1、axios可以在nodejs端或浏览器端向服务器请求数据。axios返回Promise对象。
