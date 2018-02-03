@@ -1,3 +1,27 @@
+# v1.0.9 使用第三方组件 vue-lazyloader
+
+1、对于图片的懒加载，可以使用现成的第三方vue组件：vue-lazyloader。
+
+2、在dependencies中添加依赖：
+		
+		"vue-lazyload": "^1.0.3"
+
+		然后安装它： npm install。
+
+3、在main.js模块中注册第三方组件
+
+		import VueLazyLoad from 'vue-lazyload'
+
+		Vue.use(VueLazyLoad, {
+			loading: require('common/image/default.png')
+		})
+
+4、在template中使用v-lazy指令
+
+		<img v-lazy="url">
+
+# ####################################################################################################
+
 # v1.0.8 封装scroll组件
 
 1、区块内容的滚动可以使用better-scroll包，better-scroll很好用，体验效果跟原生滚动差不多了。
