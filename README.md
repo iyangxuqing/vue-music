@@ -1,3 +1,86 @@
+# v1.0.7 使用axios获取数据
+
+1、axios可以在nodejs端或浏览器端向服务器请求数据。axios返回Promise对象。
+
+	  return axios.get(url, {
+	    params: data
+	  }).then((res) => {
+	    return Promise.resolve(res.data)
+	  })
+
+2、QQ音乐的歌单列表数据，服务器端对referer进行了校验，因此不能通过jsonp或ajax方式直接通过浏览器去获取，需要通过服务端代理获取。
+
+3、在webpack.dev.conf.js中建立向QQ音乐读取歌单列表数据的api:
+
+	  devServer: {
+	    before(app) {
+	      app.get('/api/getDiscList', function (req, res) {
+	        const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+	        axios.get(url, {
+	          headers: {
+	            referer: 'https://c.y.qq.com/',
+	            host: 'c.y.qq.com'
+	          },
+	          params: req.query
+	        }).then((response) => {
+	          res.json(response.data)
+	        }).catch((e) => {
+	          console.log(e)
+	        })
+	      })
+	    },
+	    ...
+	  }
+
+4、在recommend.vue的前端api模块src/common/recommend.js中编写向devServer读取歌单的api:
+
+		export function getDiscList() {
+		  const url = '/api/getDiscList'
+
+		  const data = Object.assign({}, commonParams, {
+		    platform: 'yqq',
+		    hostUin: 0,
+		    sin: 0,
+		    ein: 29,
+		    sortId: 5,
+		    needNewCode: 0,
+		    categoryId: 10000000,
+		    rnd: Math.random(),
+		    format: 'json'
+		  })
+
+		  return axios.get(url, {
+		    params: data
+		  }).then((res) => {
+		    return Promise.resolve(res.data)
+		  })
+		}
+
+5、在recommend.vue组件的created钩子中，引用上述的api，即可读取歌单列表数据。
+
+  import {getRecommend, getDiscList} from 'api/recommend'
+  ...
+
+  export default {
+    created() {
+    	...
+      this._getDiscList()
+    },
+    methods: {
+    	...
+      _getDiscList() {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            console.log(res.data.list)
+          }
+        })
+      }
+    },
+    ...
+  }
+
+# #####################################################################################################################################
+
 # v1.0.6 slider组件
 
 1、slider组件使用better-scroll包来编写，使用了vue的<slot></slot>指令来插入特定内容。
